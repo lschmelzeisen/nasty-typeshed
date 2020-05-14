@@ -95,6 +95,6 @@ publish-twine-upload: ##- Upload to PyPI.
 # ------------------------------------------------------------------------------
 
 clean: ##- Remove all created cache/build files, and virtual environments.
-	@rm -rf .eggs .mypy_cache .nox .venv build dist src/*/_version.py src/*.egg-info src/.mypy_cache
+	@rm -rf .eggs .mypy_cache .nox .venv build dist src/*/_version.py src/*.egg-info
 	@find . -type d -name __pycache__ -exec rm -r {} +
 .PHONY: clean

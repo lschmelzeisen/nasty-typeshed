@@ -7,5 +7,5 @@ include pyproject.toml
 include README.rst
 include setup.cfg
 include setup.py
-recursive-include src *.pyi
+recursive-include src *.py *.pyi
 recursive-include tests *.py
