@@ -14,11 +14,10 @@
 # limitations under the License.
 #
 
-__version__ = "dev"
 try:
-    from nasty_stubs._version import __version__  # type: ignore
+    from nasty_typeshed._version import __version__  # type: ignore
 except ImportError:
-    pass
+    __version__ = "dev"
 
 __version_info__ = tuple(
     (int(part) if part.isdigit() else part)
