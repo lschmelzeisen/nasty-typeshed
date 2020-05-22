@@ -18,7 +18,6 @@ from typing import (
     Any,
     Callable,
     ContextManager,
-    Generic,
     Iterable,
     NoReturn,
     Optional,
@@ -28,6 +27,8 @@ from typing import (
     TypeVar,
     Union,
 )
+
+from _pytest._code import ExceptionInfo
 
 _T_arg = TypeVar("_T_arg")
 _T_func = TypeVar("_T_func", bound=Callable[..., Any])
@@ -58,14 +59,9 @@ class mark:  # noqa: N801
     @staticmethod
     def requests_cache_regenerate(func: _T_func) -> _T_func: ...
 
-class _pytest:  # noqa: N801
-    class _code:  # noqa: N801
-        class ExceptionInfo(Generic[_T_exp]):
-            value: _T_exp
-
 def raises(  # noqa: F811
     expected_exception: Union[Type[_T_exp], Tuple[Type[_T_exp], ...]],
     *args: Any,
     match: Optional[Union[str, Pattern[Any]]] = ...,
     **kwargs: Any,
-) -> ContextManager[_pytest._code.ExceptionInfo[_T_exp]]: ...
+) -> ContextManager[ExceptionInfo[_T_exp]]: ...
