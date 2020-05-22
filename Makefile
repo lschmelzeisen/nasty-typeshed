@@ -19,6 +19,7 @@ devinstall: ##- Install the project in editable mode with all test and dev depen
 
 test: ##- Test type-checking in the currently active environment.
 	@mypy .
+	@ls src --ignore=*.egg-info | xargs printf -- '-p %s\n' | xargs mypy
 .PHONY: test
 
 test-nox: ##- Test type-checking against all supported Python versions (in separate environments).

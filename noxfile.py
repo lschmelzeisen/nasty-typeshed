@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+from pathlib import Path
+
 from nox import options, session
 from nox.sessions import Session
 
@@ -24,5 +26,11 @@ options.stop_on_first_error = True
 
 @session(python=["3.6", "3.7", "3.8"])
 def test(session: Session) -> None:
+    packages = sorted(
+        p.name
+        for p in Path("src").iterdir()
+        if not p.name.endswith(".mypy_cache") and not p.name.endswith(".egg-info")
+    )
     session.install("-e", ".[test]")
     session.run("mypy", ".")
+    session.run("mypy", *(arg for package in packages for arg in ("-p", package)))
