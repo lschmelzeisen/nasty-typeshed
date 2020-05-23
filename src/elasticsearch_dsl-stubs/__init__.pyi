@@ -15,7 +15,17 @@
 #
 
 from datetime import date, datetime
-from typing import Generic, Mapping, Optional, Sequence, Tuple, Type, TypeVar, Union
+from typing import (
+    Generic,
+    Mapping,
+    MutableSequence,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+)
 
 from elasticsearch import Elasticsearch
 
@@ -73,7 +83,9 @@ class IndexTemplate:
 
 class Index:
     _name: str
+    _doc_types: MutableSequence[Type["Document"]]
     def __init__(self, name: str, using: _T_Using = ...): ...
+    def create(self, using: _T_Using = ...) -> _T_JsonMap: ...
     def delete(self, using: _T_Using = ...) -> _T_JsonMap: ...
     def delete_alias(self, name: str, using: _T_Using = ...) -> _T_JsonMap: ...
     def exists(self, using: _T_Using = ...) -> bool: ...
@@ -84,6 +96,7 @@ class Index:
     def as_template(
         self, template_name: str, pattern: str = ..., order: int = ...
     ) -> IndexTemplate: ...
+    def settings(self, **kwargs: Mapping[str, object]) -> "Index": ...
 
 _T_Index = Union[None, str, Index]
 _T_Document = TypeVar("_T_Document", bound="Document")
