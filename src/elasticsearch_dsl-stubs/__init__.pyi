@@ -25,11 +25,13 @@ from typing import (
     Type,
     TypeVar,
     Union,
+MutableMapping,
 )
 
 from elasticsearch import Elasticsearch
 
 _T_JsonMap = Mapping[str, object]
+_T_MutableJsonMap = MutableMapping[str, object]
 _T_Using = Union[None, str, Elasticsearch]
 
 class connections:  # noqa: N801
@@ -103,8 +105,14 @@ _T_Document = TypeVar("_T_Document", bound="Document")
 
 class InnerDoc: ...
 
+class _DocumentMeta:
+    id: str
+    index: str
+    score: float
+
 class Document:
     _index: Index
+    meta: _DocumentMeta
     def __init__(self, *args: object, **kwargs: object): ...
     @classmethod
     def init(cls, index: Union[str, Index], using: _T_Using = ...) -> None: ...
@@ -126,7 +134,7 @@ class Document:
     ) -> str: ...
     def to_dict(
         self, include_meta: bool = ..., skip_empty: bool = ...
-    ) -> _T_JsonMap: ...
+    ) -> _T_MutableJsonMap: ...
 
 class Field:
     def __init__(
