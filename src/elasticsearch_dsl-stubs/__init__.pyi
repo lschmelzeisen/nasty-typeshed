@@ -18,6 +18,7 @@ from datetime import date, datetime
 from typing import (
     Generic,
     Mapping,
+    MutableMapping,
     MutableSequence,
     Optional,
     Sequence,
@@ -25,7 +26,6 @@ from typing import (
     Type,
     TypeVar,
     Union,
-MutableMapping,
 )
 
 from elasticsearch import Elasticsearch
