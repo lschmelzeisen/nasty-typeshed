@@ -39,18 +39,46 @@ class connections:  # noqa: N801
     def create_connection(
         cls,
         alias: str = ...,
-        hosts: Union[str, Sequence[str]] = ...,
+        # Parameters from elasticsearch.Transport:
+        hosts: Union[
+            str, Mapping[str, object], Sequence[Union[str, Mapping[str, object]]]
+        ] = ...,
+        # connection_class
+        # connection_pool_class
+        # host_info_callback
+        sniff_on_start: bool = ...,
+        sniffer_timeout: Optional[float] = ...,
+        sniff_timeout: float = ...,
+        sniff_on_connection_fail: bool = ...,
+        # serializers
+        default_minetype: str = ...,
+        max_retries: int = ...,
+        retry_on_status: Sequence[int] = ...,
+        retry_on_timeout: bool = ...,
+        send_get_body_as: str = ...,
+        # Parameters from elasticsearch.Connection:
+        host: str = ...,
         port: int = ...,
-        http_auth: Tuple[str, str] = ...,
         scheme: str = ...,
         use_ssl: bool = ...,
-        ssl_show_warn: bool = ...,
-        ssl_assert_hostname: str = ...,
-        verify_certs: bool = ...,
-        ca_certs: str = ...,
-        http_compress: bool = ...,
-        max_retries: int = ...,
+        url_prefix: Optional[str] = ...,
         timeout: int = ...,
+        # headers
+        http_compress: Optional[bool] = ...,
+        cloud_id: Optional[str] = ...,
+        api_key: Union[None, str, Sequence[str]] = ...,
+        opaque_id: Optional[str] = ...,
+        # Parameters from elasticsearch.Urllib3HttpConnection:
+        http_auth: Union[str, Tuple[str, str]] = ...,
+        verify_certs: bool = ...,
+        ssl_show_warn: bool = ...,
+        ca_certs: Optional[str] = ...,
+        client_certs: Optional[str] = ...,
+        client_key: Optional[str] = ...,
+        ssl_version: Optional[str] = ...,
+        ssl_assert_hostname: Optional[str] = ...,
+        ssl_assert_fingerprint: Optional[bool] = ...,
+        maxsize: int = ...,
     ) -> Elasticsearch: ...
     @classmethod
     def get_connection(cls, alias: str = ...) -> Elasticsearch: ...
