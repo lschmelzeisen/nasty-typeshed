@@ -14,7 +14,17 @@
 # limitations under the License.
 #
 
-from typing import ContextManager, Iterable, Iterator, Optional, TextIO, TypeVar, Union
+from typing import (
+    Any,
+    ContextManager,
+    Iterable,
+    Iterator,
+    MutableMapping,
+    Optional,
+    TextIO,
+    TypeVar,
+    Union,
+)
 
 _T = TypeVar("_T")
 
@@ -29,8 +39,28 @@ class tqdm(Iterable[_T], ContextManager["tqdm[None]"]):  # noqa: N801
         unit: str = ...,
         unit_scale: Union[bool, int, float] = ...,
         unit_divisor: float = ...,
+        leave: bool = ...,
     ): ...
     def __iter__(self) -> Iterator[_T]: ...
+    @property
+    def format_dict(self) -> MutableMapping[str, object]: ...
+    def format_meter(
+        self,
+        n: Union[int, float],
+        total: Union[int, float],
+        elapsed: float,
+        ncols: Optional[int] = ...,
+        prefix: str = ...,
+        ascii: Union[bool, str] = ...,  # noqa: A002
+        unit: str = ...,
+        unit_scale: Union[bool, int, float] = ...,
+        rate: Optional[float] = ...,
+        bar_format: Optional[str] = ...,
+        postfix: object = ...,
+        unit_divisor: float = ...,
+        **extra_kwargs: object,
+    ) -> str: ...
+    def refresh(self, nolock: bool = ..., lock_args: Optional[Any] = ...,) -> bool: ...
     def update(self, n: Union[int, float] = ...) -> None: ...
     @classmethod
     def write(
