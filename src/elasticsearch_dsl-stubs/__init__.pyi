@@ -62,7 +62,7 @@ class connections:  # noqa: N801
         scheme: str = ...,
         use_ssl: bool = ...,
         url_prefix: Optional[str] = ...,
-        timeout: int = ...,
+        timeout: float = ...,
         # headers
         http_compress: Optional[bool] = ...,
         cloud_id: Optional[str] = ...,
