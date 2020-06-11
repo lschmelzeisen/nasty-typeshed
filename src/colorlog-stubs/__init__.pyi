@@ -18,6 +18,9 @@ from logging import Formatter
 from typing import Mapping, Optional
 
 class ColoredFormatter(Formatter):
+    log_colors: Mapping[str, str]
+    secondary_log_colors: Optional[Mapping[str, Mapping[str, str]]]
+    reset: bool
     def __init__(
         self,
         fmt: Optional[str] = ...,
@@ -25,8 +28,9 @@ class ColoredFormatter(Formatter):
         style: str = ...,
         log_colors: Optional[Mapping[str, str]] = ...,
         reset: bool = ...,
-        secondary_log_colors: Optional[Mapping[str, str]] = ...,
+        secondary_log_colors: Optional[Mapping[str, Mapping[str, str]]] = ...,
     ): ...
+    def color(self, log_colors: Mapping[str, str], level_name: str) -> str: ...
 
 default_log_colors: Mapping[str, str] = ...
 escape_codes: Mapping[str, str] = ...
