@@ -34,12 +34,29 @@ class tqdm(Iterable[_T], ContextManager["tqdm[None]"]):  # noqa: N801
     def __init__(
         self,
         iterable: Iterator[_T] = ...,
-        desc: str = ...,
-        total: Union[int, float] = ...,
+        desc: Optional[str] = ...,
+        total: Optional[Union[int, float]] = ...,
+        leave: bool = ...,
+        # file
+        ncols: Optional[int] = ...,
+        mininterval: float = ...,
+        maxinterval: float = ...,
+        miniters: Optional[Union[int, float]] = ...,
+        ascii: Optional[Union[bool, str]] = ...,  # noqa: A002
+        disable: bool = ...,
         unit: str = ...,
         unit_scale: Union[bool, int, float] = ...,
-        unit_divisor: float = ...,
-        leave: bool = ...,
+        dynamic_ncols: bool = ...,
+        smoothing: float = ...,
+        bar_format: Optional[str] = ...,
+        initial: Union[int, float] = ...,
+        position: Optional[int] = ...,
+        postfix: Optional[Any] = ...,
+        unit_divisor: Union[int, float] = ...,
+        write_bytes: Optional[bool] = ...,
+        # lock_args
+        nrows: Optional[int] = ...,
+        gui: bool = ...,
     ): ...
     def __iter__(self) -> Iterator[_T]: ...
     @property
