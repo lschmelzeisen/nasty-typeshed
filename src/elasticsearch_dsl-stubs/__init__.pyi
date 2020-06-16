@@ -15,9 +15,9 @@
 #
 
 from datetime import date, datetime
+from typing import Generic, Iterator
+from typing import Mapping as TMapping
 from typing import (
-    Generic,
-    Mapping,
     MutableMapping,
     MutableSequence,
     Optional,
@@ -30,7 +30,7 @@ from typing import (
 
 from elasticsearch import Elasticsearch
 
-_T_JsonMap = Mapping[str, object]
+_T_JsonMap = TMapping[str, object]
 _T_MutableJsonMap = MutableMapping[str, object]
 _T_Using = Union[None, str, Elasticsearch]
 
@@ -41,7 +41,7 @@ class connections:  # noqa: N801
         alias: str = ...,
         # Parameters from elasticsearch.Transport:
         hosts: Union[
-            str, Mapping[str, object], Sequence[Union[str, Mapping[str, object]]]
+            str, TMapping[str, object], Sequence[Union[str, TMapping[str, object]]]
         ] = ...,
         # connection_class
         # connection_pool_class
@@ -126,43 +126,7 @@ class Index:
     def as_template(
         self, template_name: str, pattern: str = ..., order: int = ...
     ) -> IndexTemplate: ...
-    def settings(self, **kwargs: Mapping[str, object]) -> "Index": ...
-
-_T_Index = Union[None, str, Index]
-_T_Document = TypeVar("_T_Document", bound="Document")
-
-class InnerDoc: ...
-
-class _DocumentMeta:
-    id: str
-    index: str
-    score: float
-
-class Document:
-    _index: Index
-    meta: _DocumentMeta
-    def __init__(self, *args: object, **kwargs: object): ...
-    @classmethod
-    def init(cls, index: Union[str, Index], using: _T_Using = ...) -> None: ...
-    @classmethod
-    def _matches(cls, hit: _T_JsonMap) -> bool: ...
-    @classmethod
-    def from_es(cls: Type[_T_Document], hit: _T_JsonMap) -> _T_Document: ...
-    @classmethod
-    def search(
-        cls: Type[_T_Document], using: _T_Using = ..., index: _T_Index = ...,
-    ) -> Search[_T_Document]: ...
-    def full_clean(self) -> None: ...
-    def save(
-        self,
-        validate: bool = ...,
-        skip_empty: bool = ...,
-        using: _T_Using = ...,
-        index: _T_Index = ...,
-    ) -> str: ...
-    def to_dict(
-        self, include_meta: bool = ..., skip_empty: bool = ...
-    ) -> _T_MutableJsonMap: ...
+    def settings(self, **kwargs: TMapping[str, object]) -> "Index": ...
 
 class Field:
     def __init__(
@@ -193,24 +157,68 @@ class Text(Field):
         index_options: Optional[str] = ...,
         index_phrases: bool = ...,
         analyzer: Union[None, str, analyzer] = ...,
-        fields: Optional[Mapping[str, Text]] = ...,
+        fields: Optional[TMapping[str, Text]] = ...,
         term_vector: Optional[str] = ...,
     ): ...
 
-_T_InnerDoc = TypeVar("_T_InnerDoc", bound=InnerDoc)
-
 class Object(Field):
+    _doc_class: Type["InnerDoc"]
     def __init__(
         self,
-        doc_class: Optional[Type[_T_InnerDoc]] = ...,
+        doc_class: Optional[Type["InnerDoc"]] = ...,
         dynamic: Union[None, bool, str] = ...,
-        properties: Optional[Mapping[str, object]] = ...,
+        properties: Optional[TMapping[str, object]] = ...,
         *,
         multi: bool = ...,
         required: bool = ...,
     ): ...
 
 class Nested(Object): ...
+
+class Mapping:
+    def __getitem__(self, name: str) -> Field: ...
+    def __iter__(self) -> Iterator[str]: ...
+
+class DocumentOptions:
+    mapping: Mapping
+
+class InnerDoc:
+    _doc_type: DocumentOptions
+
+class _DocumentMeta:
+    id: str
+    index: str
+    score: float
+
+_T_Index = Union[None, str, Index]
+_T_Document = TypeVar("_T_Document", bound="Document")
+
+class Document:
+    _doc_type: DocumentOptions
+    _index: Index
+    meta: _DocumentMeta
+    def __init__(self, *args: object, **kwargs: object): ...
+    @classmethod
+    def init(cls, index: Union[str, Index], using: _T_Using = ...) -> None: ...
+    @classmethod
+    def _matches(cls, hit: _T_JsonMap) -> bool: ...
+    @classmethod
+    def from_es(cls: Type[_T_Document], hit: _T_JsonMap) -> _T_Document: ...
+    @classmethod
+    def search(
+        cls: Type[_T_Document], using: _T_Using = ..., index: _T_Index = ...,
+    ) -> Search[_T_Document]: ...
+    def full_clean(self) -> None: ...
+    def save(
+        self,
+        validate: bool = ...,
+        skip_empty: bool = ...,
+        using: _T_Using = ...,
+        index: _T_Index = ...,
+    ) -> str: ...
+    def to_dict(
+        self, include_meta: bool = ..., skip_empty: bool = ...
+    ) -> _T_MutableJsonMap: ...
 
 class MetaField:
     def __init__(self, *args: object, **kwargs: object): ...
