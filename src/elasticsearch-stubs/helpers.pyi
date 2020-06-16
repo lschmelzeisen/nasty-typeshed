@@ -34,3 +34,33 @@ def bulk(
     initial_backoff: int = ...,
     max_backoff: int = ...,
 ) -> Tuple[int, Union[int, Sequence[object]]]: ...
+def streaming_bulk(
+    client: Elasticsearch,
+    actions: Iterator[Mapping[str, object]],
+    chunk_size: int = ...,
+    max_chunk_bytes: int = ...,
+    raise_on_error: bool = ...,
+    expand_action_callback: Callable[
+        [Union[str, Mapping[str, object]]],
+        Tuple[Mapping[str, object], Optional[Mapping[str, object]]],
+    ] = ...,
+    raise_on_exception: bool = ...,
+    max_retries: int = ...,
+    initial_backoff: int = ...,
+    max_backoff: int = ...,
+    yield_ok: bool = ...,
+) -> Iterator[Tuple[bool, Mapping[str, object]]]: ...
+def parallel_bulk(
+    client: Elasticsearch,
+    actions: Iterator[Mapping[str, object]],
+    thread_count: int = ...,
+    chunk_size: int = ...,
+    max_chunk_bytes: int = ...,
+    queue_size: int = ...,
+    raise_on_error: bool = ...,
+    expand_action_callback: Callable[
+        [Union[str, Mapping[str, object]]],
+        Tuple[Mapping[str, object], Optional[Mapping[str, object]]],
+    ] = ...,
+    raise_on_exception: bool = ...,
+) -> Iterator[Tuple[bool, Mapping[str, object]]]: ...
