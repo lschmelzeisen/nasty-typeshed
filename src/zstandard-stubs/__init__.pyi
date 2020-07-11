@@ -17,6 +17,8 @@
 from io import BufferedIOBase
 from typing import IO
 
+class ZstdCompressor:
+    def compress(self, data: bytes) -> bytes: ...
+
 class ZstdDecompressor:
-    def __init__(self) -> None: ...
     def stream_reader(self, source: IO[bytes]) -> BufferedIOBase: ...
