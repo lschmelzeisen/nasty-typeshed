@@ -39,11 +39,11 @@ check-autoflake: ##- Check for unused imports and variables.
 .PHONY: check-autoflake
 
 check-flake8: ##- Run linters.
-	@flake8 src tests *.py
+	@flake8 src *.py
 .PHONY: check-flake8
 
 check-isort: ##- Check if imports are sorted correctly.
-	@isort --check-only --recursive --quiet .
+	@isort --check-only --quiet .
 .PHONY: check-isort
 
 check-black: ##- Check if code is formatted correctly.
@@ -57,7 +57,6 @@ format: format-licenseheaders format-autoflake format-isort format-black ##- Aut
 
 format-licenseheaders: ##- Prepend license headers to all code files.
 	@licenseheaders --tmpl LICENSE.header --years 2019-2020 --owner "Lukas Schmelzeisen" --dir src --additional-extensions python=.pyi
-	@licenseheaders --tmpl LICENSE.header --years 2019-2020 --owner "Lukas Schmelzeisen" --dir tests
 .PHONY: format-licenseheaders
 
 format-autoflake: ##- Remove unused imports and variables.
@@ -65,7 +64,7 @@ format-autoflake: ##- Remove unused imports and variables.
 .PHONY: format-autoflake
 
 format-isort: ##- Sort all imports.
-	@isort --recursive --quiet .
+	@isort --quiet .
 .PHONY: format-isort
 
 format-black: ##- Format all code.
