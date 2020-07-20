@@ -1,8 +1,4 @@
 include LICENSE
-include LICENSE.header
-include Makefile
-include MANIFEST.in
-include noxfile.py
 include pyproject.toml
 include README.rst
 include setup.cfg
