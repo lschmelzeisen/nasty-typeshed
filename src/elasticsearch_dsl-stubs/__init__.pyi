@@ -206,7 +206,9 @@ class Document:
     def from_es(cls: Type[_T_Document], hit: _T_JsonMap) -> _T_Document: ...
     @classmethod
     def search(
-        cls: Type[_T_Document], using: _T_Using = ..., index: _T_Index = ...,
+        cls: Type[_T_Document],
+        using: _T_Using = ...,
+        index: _T_Index = ...,
     ) -> Search[_T_Document]: ...
     def full_clean(self) -> None: ...
     def save(
